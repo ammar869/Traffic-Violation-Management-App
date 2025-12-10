@@ -1,41 +1,145 @@
-import tkinter as tk
+import customtkinter as ctk
 from tkinter import messagebox
 from app.auth import Auth
+
+# ===================== COLOR PALETTE =====================
+DARK_BLUE = "#1E293B"
+LIGHT_BG = "#F8FAFC"
+BUTTON_BLUE = "#3B82F6"
+WARNING_RED = "#EF4444"
+SUCCESS_GREEN = "#22C55E"
+MAIN_TEXT = "#0F172A"
+SECONDARY_TEXT = "#64748B"
+
+
+ctk.set_appearance_mode("light")
+ctk.set_default_color_theme("blue")
 
 class LoginGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Traffic Violation System - Login")
-        self.root.geometry("400x300")
+        self.root.title("Traffic Violation System")
+        self.root.geometry("420x520")
         self.root.resizable(False, False)
 
-        # Title
-        tk.Label(root, text="Traffic Violation System", font=("Arial", 18, "bold")).pack(pady=10)
+        # Window background
+        self.root.configure(bg=LIGHT_BG)
 
-        # Role selection
-        tk.Label(root, text="Select Role", font=("Arial", 12)).pack()
+        # Outer Shadow Frame (for depth)
+        self.shadow = ctk.CTkFrame(
+            root,
+            fg_color="#E5E7EB",
+            corner_radius=25
+        )
+        self.shadow.pack(padx=15, pady=15, fill="both", expand=True)
 
-        self.role_var = tk.StringVar(value="admin")
+        # Main Glass Card
+        self.frame = ctk.CTkFrame(
+            self.shadow,
+            fg_color="white",
+            corner_radius=25,
+            border_width=1,
+            border_color="#E2E8F0"
+        )
+        self.frame.pack(padx=10, pady=10, fill="both", expand=True)
 
-        role_frame = tk.Frame(root)
-        role_frame.pack(pady=5)
+        # App Title
+        ctk.CTkLabel(
+            self.frame,
+            text="Traffic Violation System",
+            font=("Poppins", 22, "bold"),
+            text_color=DARK_BLUE
+        ).pack(pady=(30, 10))
 
-        tk.Radiobutton(role_frame, text="Admin", variable=self.role_var, value="admin").pack(side="left", padx=5)
-        tk.Radiobutton(role_frame, text="Officer", variable=self.role_var, value="police").pack(side="left", padx=5)
-        tk.Radiobutton(role_frame, text="User", variable=self.role_var, value="user").pack(side="left", padx=5)
+        # Subtitle
+        ctk.CTkLabel(
+            self.frame,
+            text="Secure Access Portal",
+            font=("Arial", 12),
+            text_color=SECONDARY_TEXT
+        ).pack(pady=(0, 25))
 
-        # Username
-        tk.Label(root, text="Username").pack(pady=(10, 0))
-        self.username_entry = tk.Entry(root, width=30)
+        # Role
+        ctk.CTkLabel(
+            self.frame,
+            text="Login as",
+            font=("Arial", 12, "bold"),
+            text_color=MAIN_TEXT
+        ).pack()
+
+        self.role_var = ctk.StringVar(value="admin")
+
+        self.role_frame = ctk.CTkFrame(self.frame, fg_color="transparent")
+        self.role_frame.pack(pady=10)
+
+        for text, val in [("Admin", "admin"), ("Officer", "police"), ("User", "user")]:
+            ctk.CTkRadioButton(
+                self.role_frame,
+                text=text,
+                variable=self.role_var,
+                value=val,
+                fg_color=BUTTON_BLUE,
+                text_color=MAIN_TEXT
+            ).pack(side="left", padx=8)
+
+        # Username Field
+        ctk.CTkLabel(
+            self.frame,
+            text="Username",
+            text_color=SECONDARY_TEXT
+        ).pack(anchor="w", padx=60, pady=(20, 5))
+
+        self.username_entry = ctk.CTkEntry(
+            self.frame,
+            width=280,
+            height=38,
+            corner_radius=10,
+            fg_color="#F9FAFB",
+            border_color="#CBD5F5",
+            text_color=MAIN_TEXT
+        )
         self.username_entry.pack()
 
-        # Password
-        tk.Label(root, text="Password").pack(pady=(10, 0))
-        self.password_entry = tk.Entry(root, width=30, show="*")
+        # Password Field
+        ctk.CTkLabel(
+            self.frame,
+            text="Password",
+            text_color=SECONDARY_TEXT
+        ).pack(anchor="w", padx=60, pady=(20, 5))
+
+        self.password_entry = ctk.CTkEntry(
+            self.frame,
+            width=280,
+            height=38,
+            corner_radius=10,
+            fg_color="#F9FAFB",
+            border_color="#CBD5F5",
+            text_color=MAIN_TEXT,
+            show="*"
+        )
         self.password_entry.pack()
 
-        # Login Button
-        tk.Button(root, text="Login", width=20, command=self.login).pack(pady=20)
+        # Premium Login Button
+        self.login_btn = ctk.CTkButton(
+            self.frame,
+            text="Login",
+            width=280,
+            height=42,
+            corner_radius=12,
+            fg_color=BUTTON_BLUE,
+            hover_color=DARK_BLUE,
+            font=("Arial", 14, "bold")
+        )
+        self.login_btn.pack(pady=(35, 15))
+        self.login_btn.configure(command=self.login)
+
+        # Footer
+        ctk.CTkLabel(
+            self.frame,
+            text="Protected System Interface",
+            font=("Arial", 10),
+            text_color=SECONDARY_TEXT
+        ).pack(pady=10)
 
     def login(self):
         username = self.username_entry.get()
@@ -54,7 +158,8 @@ class LoginGUI:
         else:
             messagebox.showerror("Login Failed", "Wrong username or password")
 
+
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = ctk.CTk()
     app = LoginGUI(root)
     root.mainloop()
