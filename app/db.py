@@ -6,7 +6,7 @@ class Database:
             host='localhost',
             user='root',
             password='*Aa1131318#',
-            database='traffic_violation_system'  # Removed trailing space
+            database='traffic_violation_system'  
         )
         self.cursor = self.conn.cursor(dictionary=True)
 

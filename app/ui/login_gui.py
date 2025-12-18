@@ -1,3 +1,9 @@
+import sys
+import os
+from app.ui.admin.admin_dashboard import TVMSApp
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import customtkinter as ctk
 from tkinter import messagebox
 from app.auth import Auth
@@ -131,7 +137,7 @@ class LoginGUI:
             font=("Arial", 14, "bold")
         )
         self.login_btn.pack(pady=(35, 15))
-        self.login_btn.configure(command=self.login)
+        self.login_btn.configure(command=self.login)  # Correct binding here
 
         # Footer
         ctk.CTkLabel(
@@ -141,7 +147,7 @@ class LoginGUI:
             text_color=SECONDARY_TEXT
         ).pack(pady=10)
 
-    def login(self):
+    def login(self):  # <-- moved inside the class
         username = self.username_entry.get()
         password = self.password_entry.get()
         role = self.role_var.get()
@@ -155,6 +161,15 @@ class LoginGUI:
 
         if user:
             messagebox.showinfo("Login Success", f"Welcome {user['full_name']}")
+
+            self.root.destroy()  # Close login window
+
+            if role == "admin":
+                app = TVMSApp(user)  # Open admin dashboard
+                app.mainloop()
+
+            # Add handling for other roles here if needed
+
         else:
             messagebox.showerror("Login Failed", "Wrong username or password")
 
@@ -163,3 +178,5 @@ if __name__ == "__main__":
     root = ctk.CTk()
     app = LoginGUI(root)
     root.mainloop()
+
+
