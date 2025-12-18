@@ -1,8 +1,11 @@
 import sys
 import os
-from app.ui.admin.admin_dashboard import TVMSApp
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.ui.admin.admin_dashboard import TVMSApp
+
+
 
 import customtkinter as ctk
 from tkinter import messagebox

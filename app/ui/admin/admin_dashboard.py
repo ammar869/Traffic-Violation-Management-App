@@ -227,6 +227,9 @@ class TVMSApp(ctk.CTk):
         canvas.draw()
         canvas.get_tk_widget().pack(fill="both", expand=True, padx=10, pady=10)
 
-    if __name__ == "__main__":
-        app = TVMSApp()
-        app.mainloop()
+
+if __name__ == "__main__":
+    # Dummy user data for testing purposes
+    user_data = {"full_name": "Test Admin"}
+    app = TVMSApp(user_data)
+    app.mainloop()
